@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+    <title>TutorRegistrationApp</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <h2>Tutor Registration Form</h2>
+            </div>
+        </div>
+        <div>
+            <h4>Tutor login information</h4>
+        </div>
+        <div class="col-4">
+            <form>
+                <div class="mb-3">
+                    <label for="desiredUsername" class="form-label">Desired Username</label>
+                    <input type="text" class="form-control" id="desiredUsername" placeholder="e.g: jhons" />
+                </div>
+                <div class="mb-3">
+                    <label for="choosePassword" class="form-label">Choose Password</label>
+                    <input type="password" class="form-control" id="choosePassword" />
+                </div>
+                <div class="mb-3">
+                   <label for="secretQuestion" class="form-label">Secret Question</label>
+                       <select class="form-select" aria-label="Default select example"> 
+                        <option selected>Select Secret Question</option>
+                        <option value="q1">What is your first school name?</option>
+                        <option value="q2">What is your first pet name?</option>
+                        <option value="q3">What is your first teacher name?</option>
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="answer" class="form-label">Answer</label>
+                    <input type="text" class="form-control" id="answer">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
