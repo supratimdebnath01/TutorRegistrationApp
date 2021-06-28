@@ -32,7 +32,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="choosePassword" class="form-label">Choose Password (*)</label>
-                            <input type="password" class="form-control" id="choosePassword" required />
+                            <input type="password" class="form-control" id="choosePassword" onkeypress="onPressPasswordHandler()" required />
+                            <p class="text-danger" id="passwordError"></p>
                         </div>
                         <div class="mb-3">
                             <label for="secretQuestion" class="form-label">Secret Question</label>
@@ -145,6 +146,19 @@
     </script>
     
     <script>
+        function onPressUsernameHandler() {
+            document.getElementById('desiredUsername').classList.remove('is-invalid');
+            document.getElementById('usernameError').innerHTML = "";
+        }
+        function onPressPasswordHandler() {
+            document.getElementById('choosePassword').classList.remove('is-invalid');
+            document.getElementById('passwordError').innerHTML = "";
+        }
+        function clearErrorMessages() {
+             onPressUsernameHandler();
+             onPressPasswordHandler();
+        }
+
         function submitHandler() {
             var userName = document.getElementById('desiredUsername').value;
             var password = document.getElementById('choosePassword').value;
@@ -161,34 +175,40 @@
             var contactNumber = document.getElementById('contactNo').value;
             var emailId = document.getElementById('email').value;
             var upload = document.getElementById('uploadPhoto').value;
+             clearErrorMessages();
             
             // Validating Username
             if (userName === "") {
                 document.getElementById('usernameError').append('This field is required');
                 document.getElementById('desiredUsername').classList.add('is-invalid');
-                console.log('user name is empty');
             } else {
                const isBig = (userName.length > 20);
                const pattern = /[^a-zA-Z0-9]/;
 
                if (isBig || pattern.test(userName)) {
-                   console.log("invalid username");
-                   document.getElementById('desiredUsername').classList.add('is-invalid');
                    document.getElementById('usernameError').append('User name cannot exceed 20 characters and cannot contain special characters.');
+                   document.getElementById('desiredUsername').classList.add('is-invalid');
                }
-
             }
 
-            // validating password
+            // Validating Password
+            if (password === "") {
+                document.getElementById('passwordError').append('The password cannot be empty.');
+                document.getElementById('choosePassword').classList.add('is-invalid');
+            } else {
+                const minMax = (password.length > 8) && (password.length < 20);
+                const pattern =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/
+                const patternTest = pattern.test(password);
+                
+               if (!minMax || !pattern.test(password)) {
+                   document.getElementById('passwordError').append('1) Your password must be between 8 and 20 characters, 2) One special character, 3) one upper case, 4) one lower case, 5) one number, 6) Not have space character');
+                   document.getElementById('choosePassword').classList.add('is-invalid');
+                }  
+            }
             
+        }
+
         
-        }
-
-        function onPressUsernameHandler() {
-            document.getElementById('desiredUsername').classList.remove('is-invalid');
-            document.getElementById('usernameError').innerHTML = "";
-        }
-
     </script>
 </body>
 
