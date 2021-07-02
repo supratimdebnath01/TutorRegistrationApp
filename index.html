@@ -56,7 +56,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Name (*)</label>
-                        <input type="text" class="form-control" id="name" required />
+                        <input type="text" class="form-control" id="name" onkeypress="onPressNameHandler()" required />
+                        <p class="text-danger" id="nameError"></p>
                     </div>
 
 
@@ -102,12 +103,13 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="postal/ZipCode" class="form-label">Postal/Zip Code (*)</label>
-                        <input type="text" class="form-control" id="postal/ZipCode" required />
+                        <label for="zipCode" class="form-label">Postal/Zip Code (*)</label>
+                        <input type="text" class="form-control" id="zipCode" onkeypress="onPressZipHandler()" required />
+                        <p class="text-danger" id="zipError"></p>
                     </div>
                     <div class="mb-3">
-                        <label for="area" class="form-label">Area</label>
-                        <input type="text" class="form-control" id="area" />
+                        <label for="area" class="form-label">Area (*)</label>
+                        <input type="text" class="form-control" id="area" required/>
                     </div>
                     <div class="mb-3">
                         <label for="presentAddress" class="form-label">Present Address (*)</label>
@@ -154,9 +156,19 @@
             document.getElementById('choosePassword').classList.remove('is-invalid');
             document.getElementById('passwordError').innerHTML = "";
         }
+        function onPressNameHandler(){
+            document.getElementById('name').classList.remove('is-invalid');
+            document.getElementById('nameError').innerHTML = "";
+        }
+        function onPressZipHandler() {
+            document.getElementById('zipCode').classList.remove('is-invalid');
+            document.getElementById('zipError').innerHTML = "";
+        }
         function clearErrorMessages() {
              onPressUsernameHandler();
              onPressPasswordHandler();
+             onPressNameHandler();
+             onPressZipHandler()
         }
 
         function submitHandler() {
@@ -169,7 +181,7 @@
             var age = document.getElementById('age').value;
             var country = document.getElementById('country').value;
             var location = document.getElementById('location').value;
-            var postalZip = document.getElementById('postal/ZipCode').value;
+            var postalZip = document.getElementById('zipCode').value;
             var area = document.getElementById('area').value;
             var presentAddress = document.getElementById('presentAddress').value;
             var contactNumber = document.getElementById('contactNo').value;
@@ -179,7 +191,7 @@
             
             // Validating Username
             if (userName === "") {
-                document.getElementById('usernameError').append('This field is required');
+                document.getElementById('usernameError').append('This field is required.');
                 document.getElementById('desiredUsername').classList.add('is-invalid');
             } else {
                const isBig = (userName.length > 20);
@@ -200,11 +212,42 @@
                 const pattern =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/
                 const patternTest = pattern.test(password);
                 
-               if (!minMax || !pattern.test(password)) {
+               if (!minMax || !patternTest) {
                    document.getElementById('passwordError').append('1) Your password must be between 8 and 20 characters, 2) One special character, 3) one upper case, 4) one lower case, 5) one number, 6) Not have space character');
                    document.getElementById('choosePassword').classList.add('is-invalid');
                 }  
+            } 
+            
+            // Validating Name
+            if (name === "") {
+                document.getElementById('nameError').append('Please enter the name.');
+                document.getElementById('name').classList.add('is-invalid');
+            } else {
+                const pattern = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+                const patternTest = pattern.test(name);
+                
+                if (!patternTest) {
+                    document.getElementById('nameError').append('Please enter a valid name.');
+                    document.getElementById('name').classList.add('is-invalid');
+                } 
+            } 
+
+            // Validating Postal || Zip Code
+            if (postalZip === "") {
+                document.getElementById('zipError').append('Please enter postal code.');
+                document.getElementById('zipCode').classList.add('is-invalid');
+            } else {
+                const isValid = (postalZip.length === 6);
+                const pattern = /^[1-9][0-9]{5}$/
+                const patternTest = pattern.test(postalZip);
+               
+
+                if (!isValid || !patternTest) {
+                    document.getElementById('zipError').append('Postal code must be 6 digit number without space.');
+                    document.getElementById('zipCode').classList.add('is-invalid');
+                }
             }
+
             
         }
 
