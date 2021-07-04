@@ -109,23 +109,27 @@
                     </div>
                     <div class="mb-3">
                         <label for="area" class="form-label">Area (*)</label>
-                        <input type="text" class="form-control" id="area" required/>
+                        <input type="text" class="form-control" id="area" onkeypress="onPressAreaHandler()" required/>
+                        <p class="text-danger" id="areaError"></p>
                     </div>
                     <div class="mb-3">
                         <label for="presentAddress" class="form-label">Present Address (*)</label>
-                        <textarea class="form-control" id="presentAddress" rows="5"></textarea>
+                        <textarea class="form-control" id="presentAddress" rows="5" onkeypress="onPressAddressHandler()" required></textarea>
+                        <p class="text-danger" id="addError"></p>
                     </div>
                     <div class="mb-3">
                         <label for="contactNo" class="form-label">Contact Number (*)</label>
-                        <input type="text" class="form-control" id="contactNo" required />
+                        <input type="text" class="form-control" id="contactNo" onkeypress="onPressContactHandler()" required />
+                        <p class="text-danger" id="contactError"></p>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address (*)</label>
-                        <input type="email" class="form-control" id="email" placeholder="example@example.com"
+                        <input type="email" class="form-control" id="email" placeholder="example@example.com" onkeypress="onPressEmailHandler()"
                             required />
+                            <p class="text-danger" id="emailError"></p>
                     </div>
                     <div class="mb-3">
-                        <label for="uploadPhoto" class="form-label">Upload Photo</label>
+                        <label for="uploadPhoto" class="form-label">Upload Photo (*)</label>
                         <input type="file" class="form-control" id="uploadPhoto" />
                         <div id="uploadHelp" class="form-text">(*jpg,*png,*gif)</div>
                     </div>
@@ -164,11 +168,33 @@
             document.getElementById('zipCode').classList.remove('is-invalid');
             document.getElementById('zipError').innerHTML = "";
         }
+        function onPressAreaHandler() {
+            document.getElementById('area').classList.remove('is-invalid');
+            document.getElementById('areaError').innerHTML = "";
+        }
+        function onPressAddressHandler() {
+            document.getElementById('presentAddress').classList.remove('is-invalid');
+            document.getElementById('addError').innerHTML = "";
+        }
+        function onPressContactHandler() {
+            document.getElementById('contactNo').classList.remove('is-invalid');
+            document.getElementById('contactError').innerHTML = "";
+        }
+        function onPressEmailHandler() {
+            document.getElementById('email').classList.remove('is-invalid');
+            document.getElementById('emailError').innerHTML = "";
+        }
+
+
         function clearErrorMessages() {
              onPressUsernameHandler();
              onPressPasswordHandler();
              onPressNameHandler();
-             onPressZipHandler()
+             onPressZipHandler();
+             onPressAreaHandler();
+             onPressAddressHandler();
+             onPressContactHandler();
+             onPressEmailHandler();
         }
 
         function submitHandler() {
@@ -213,7 +239,7 @@
                 const patternTest = pattern.test(password);
                 
                if (!minMax || !patternTest) {
-                   document.getElementById('passwordError').append('1) Your password must be between 8 and 20 characters, 2) One special character, 3) one upper case, 4) one lower case, 5) one number, 6) Not have space character');
+                   document.getElementById('passwordError').append('1) Your password must be between 8 and 20 characters, 2) One special character, 3) one upper case, 4) one lower case, 5) one number, 6) Not have space character.');
                    document.getElementById('choosePassword').classList.add('is-invalid');
                 }  
             } 
@@ -241,14 +267,55 @@
                 const pattern = /^[1-9][0-9]{5}$/
                 const patternTest = pattern.test(postalZip);
                
-
                 if (!isValid || !patternTest) {
                     document.getElementById('zipError').append('Postal code must be 6 digit number without space.');
                     document.getElementById('zipCode').classList.add('is-invalid');
                 }
             }
-
             
+            // Validating Area
+            if (area === "") {
+                document.getElementById('areaError').append('Please enter this field.');
+                document.getElementById('area').classList.add('is-invalid');
+            } else {
+                const pattern = /^[a-zA-Z0-9 ]*$/
+                const patternTest = pattern.test(area);
+              
+                if (!patternTest) {
+                  document.getElementById('areaError').append('Area should not contain any special character.');
+                  document.getElementById('area').classList.add('is-invalid');
+              }  
+            }
+
+            // Validating Address
+            if (presentAddress === "") {
+                document.getElementById('addError').append('This field is required.');
+                document.getElementById('presentAddress').classList.add('is-invalid');
+            } else {
+                const pattern = /^[ A-Za-z0-9_@./#&+-]*$/
+                const patternTest = pattern.test(presentAddress);
+            }
+
+            // Validating Contact Number
+            if (contactNumber === "") {
+                document.getElementById('contactError').append('Please enter your phone number.');
+                document.getElementById('contactNo').classList.add('is-invalid');
+            } else {
+                const isNum = (contactNumber.length === 10);
+                const pattern = /^[0-9]*$/
+                const patternTest = pattern.test(contactNumber);
+               
+               if (!isNum || !patternTest) {
+                   document.getElementById('contactError').append('Please enter your 10 digit number without space.');
+                   document.getElementById('contactNo').classList.add('is-invalid');
+               } 
+            }
+
+            //Validating Email
+            if (emailId === "") {
+                document.getElementById('emailError').append('Please enter your email.');
+                document.getElementById('email').classList.add('is-invalid');
+            } 
         }
 
         
