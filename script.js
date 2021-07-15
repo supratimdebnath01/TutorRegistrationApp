@@ -48,6 +48,7 @@ function onClickPhotoHandler() {
     document.getElementById('photoError').innerHTML = "";
 }
 
+
 function clearErrorMessages() {
      onPressUsernameHandler();
      onPressPasswordHandler();
@@ -68,25 +69,27 @@ function clearErrorMessages() {
 function fileUploadHandler() {
     onClickPhotoHandler();
     var upload = document.getElementById('uploadPhoto');
+    if (upload.value === "") {
+        document.getElementById('photoError').append('Please select the image.');
+        document.getElementById('uploadPhoto').classList.add('is-invalid');
+    } else {
     var uploadPath = upload.value;
     var allowedFileTypes = /(\.jpg|\.JPG|\.jpeg|\.JPEG|\.png|\.PNG|\.gif|\.GIF)$/ 
     var fileSize = upload.files[0].size / 1024 / 1024 ;  
-
+   
     if (!allowedFileTypes.exec(uploadPath)) {
         document.getElementById('photoError').append('Invalid file type.');
         document.getElementById('uploadPhoto').classList.add('is-invalid');
         uploadPath = '';
         return;
-    
-    };
-    
+    }
     if (fileSize > 2) {
         document.getElementById('photoError').append('File size is more than 2 MB.');
         document.getElementById('uploadPhoto').classList.add('is-invalid');
         uploadPath = '';
         return;
     }
-    console.log(upload.files);
+   }
     
 }
 
@@ -235,9 +238,7 @@ function submitHandler() {
     }
 
     // Empty photo upload
-    if (upload === "") {
-        document.getElementById('photoError').append('Please select the image.');
-        document.getElementById('uploadPhoto').classList.add('is-invalid');
-    }
 
+    fileUploadHandler(); 
+    
 }
